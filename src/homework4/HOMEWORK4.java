@@ -17,9 +17,7 @@ public class HOMEWORK4 {
     public static void main(String[] args) {
         String[] colors = {"Green","Red","Yellow","White","Black"};
         String[] pets = {"rat","cow","tiger","bunny","dragon", "snake", "horse", "sheep", "monkey", "chicken", "dog", "pig"};
-        int i = 0, cyclov = 0, i2 = 0;
-        int fullcycle = 60;
-        int podcycle = 12;
+        int i = 0, cyclov = 0, i2 = 0, fullcycle = 60, podcycle = 12;
         Scanner scanner = new Scanner(System.in);
         System.out.print("Wtite something - ");
         i = scanner.nextInt();
@@ -40,5 +38,4 @@ public class HOMEWORK4 {
             System.out.println("Name of this year: " + colors[i2] + " " + pets[i]);
         }
     }
-    
 }
