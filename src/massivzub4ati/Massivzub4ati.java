@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Massivzub4ati {
     public static int getRandomNumberUsingNextInt(int min, int max) {
         Random random = new Random();
-        return (random.nextInt(max - min)) + min;
+        return (random.nextInt(max - min+1)) + min;
     }
     public static void main(String[] args) {
         int min = 0, max = 0, summa = 0, summateplo = 0, summaholod = 0, mesatsteplo = 0, mesatsholod = 0, denteplo = 0, denholod = 0; 
@@ -85,7 +85,7 @@ public class Massivzub4ati {
                     mesatsteplo = g;
                 }
                 for(int a = 0;a < TempForThisYear[i].length; a++){
-                    summa +=  TempForThisYear[g][i][a];
+                    summa += TempForThisYear[g][i][a];
                 }
             }
         }
