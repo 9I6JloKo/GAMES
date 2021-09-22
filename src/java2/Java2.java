@@ -6,7 +6,7 @@ public class Java2 {
         System.out.print("Celsii - ");
         Scanner scanner = new Scanner(System.in);
         double C = scanner.nextDouble();
-        double F = (double)(5*C/9)+32; 
-        System.out.println("Fahrenheit - " + F);
+        double F = (9*C/5)+32; 
+        System.out.printf("Fahrenheit - %.2f%n", F);
     }
 }
