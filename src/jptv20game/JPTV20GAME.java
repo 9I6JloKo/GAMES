@@ -20,12 +20,15 @@ public class JPTV20GAME {
         Scanner scanner = new Scanner(System.in);
         int number = random.nextInt(10);
         System.out.println("Отгадай число !");
-         int usernumber = scanner.nextInt();
-        if (number == usernumber){
-            System.out.println("URAAAAAAAA!!!!!!!! POBEDAAA");
-        }
-        else {
-            System.out.println("PROIGRAL!!!!!");
+        for(int i = 0; i < 5; i++){
+            int usernumber = scanner.nextInt();
+            if(number == usernumber){
+                System.out.println("URAAAAAAAA!!!!!!!! POBEDAAA");
+                break;
+            }
+            else {
+                System.out.println("NET!!!!!");
+            }
         }
     }
     
