@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package shopboots.classes;
+import java.io.Serializable;
 import java.util.Date;
 /**
  *
  * @author anana
  */
-public class History {
+public class History implements Serializable{
     private Date dateOfBuying;
     private String client;
     private String product;

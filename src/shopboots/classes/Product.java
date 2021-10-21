@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package shopboots.classes;
-
+import java.io.Serializable;
 /**
  *
  * @author anana
  */
-public class Product {
+public class Product implements Serializable{
     private String modell;
     private int size;
     private String bywho;
