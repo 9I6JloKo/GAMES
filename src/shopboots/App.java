@@ -15,9 +15,9 @@ import java.util.GregorianCalendar;
  * @author anana
  */
 public class App {
-    Product[] products = new Product[200];
-    Client[] clients = new Client[20];
-    History[] histories = new History[100];
+    private Product[] products = new Product[200];
+    private Client[] clients = new Client[20];
+    private History[] histories = new History[100];
     Double easyMoney = 0.00;
     Scanner scanner = new Scanner(System.in);
     public void run() {
