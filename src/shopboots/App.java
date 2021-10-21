@@ -22,8 +22,6 @@ public class App {
     Scanner scanner = new Scanner(System.in);
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        int a = 0;
-        int b = 0;
         boolean repeat = true;
         while(repeat == true){
             int task;
