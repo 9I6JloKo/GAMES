@@ -15,7 +15,12 @@ public class Product implements Serializable{
     private String bywho;
     private Double price;
     private int piece;
+    private int maxPiece;
 
+    public int getMaxPiece() {
+        return maxPiece;
+    }
+    
     public int getPiece() {
         return piece;
     }
@@ -50,6 +55,10 @@ public class Product implements Serializable{
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public void setMaxPiece(int maxPiece) {
+        this.maxPiece = maxPiece;
     }
 
     public void setPiece(int piece) {

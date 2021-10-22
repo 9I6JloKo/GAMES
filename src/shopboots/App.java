@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import interfaces.Keeping;
 import tools.SaverToFile;
+import shopboots.classes.AntiHistory;
 /**
  *
  * @author anana
@@ -20,14 +21,9 @@ public class App {
     private Product[] products = new Product[200];
     private Client[] clients = new Client[20];
     private History[] histories = new History[100];
-    private Keeping keeper = new SaverToFile();
+    private AntiHistory[] antihistories = new AntiHistory[100];
     Double easyMoney = 0.00;
     Scanner scanner = new Scanner(System.in);
-    public App() {
-        products = keeper.loadProducts();
-        clients = keeper.loadClients();
-        histories = keeper.loadHistories();
-    }
     public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean repeat = true;
@@ -43,7 +39,9 @@ public class App {
                     + "\n5) Вывести список покупателей"
                     + "\n6) Купить обувь определенным покупателем"
                     + "\n7) Вывести историю покупок"
-                    + "\n8) Доход с продаж");
+                    + "\n8) Вернуть товар по истории покупок"
+                    + "\n9) Показать историю возврата"
+                    + "\n10) Доход с продаж");
             task = scanner.nextInt();
             if(task == 2){
                 for (int i = 0;i<products.length;i++){
@@ -89,8 +87,23 @@ public class App {
                     }
                 }
             }
-            else if(task == 8){
+            else if(task == 10){
                 System.out.println("Доход - " + easyMoney);
+            }
+            else if(task == 8){
+                for(int i = 0; i < antihistories.length; i++){
+                    if(antihistories[i] == null){
+                        antihistories[i] = addAntiHistory();
+                        break;
+                    }
+                }
+            }
+            else if(task == 9){
+                for (int i = 0; i< antihistories.length;i++){
+                    if (antihistories[i] != null){
+                        System.out.println(antihistories[i].toString());
+                    }
+                }
             }
             else{
                 repeat = false;
@@ -109,6 +122,7 @@ public class App {
         product.setPrice(scanner.nextDouble());
         System.out.println("Количество пар обуви - ");
         product.setPiece(scanner.nextInt());
+        product.setMaxPiece(product.getPiece());
         if(product.getPiece() < 1){
             System.out.println("Нету обуви");
             product = null;
@@ -139,7 +153,8 @@ public class App {
             }
             System.out.println("Номер покупателя - ");
             int clientNumb = scanner.nextInt();
-            history.setClient(clients[clientNumb-1].getClientName());
+            history.setClientNumber(clients[clientNumb-1].getClientNumber());
+            history.setClientName(clients[clientNumb-1].getClientName());
             System.out.println("Список обуви - ");
             for(int i = 0; i < products.length; i++){
                 if(products[i] != null){
@@ -150,6 +165,7 @@ public class App {
             int productNumb = scanner.nextInt();
             history.setProduct(products[productNumb-1].getModell());
             Calendar c = new GregorianCalendar();
+            history.setSize(products[productNumb-1].getSize());
             history.setDateOfBuying(c.getTime());
             if(clients[clientNumb-1].getClientMoney() >= products[productNumb-1].getPrice() && products[productNumb-1].getPiece() > 0){
                 clients[clientNumb-1].setClientMoney(clients[clientNumb-1].getClientMoney() - products[productNumb-1].getPrice());
@@ -166,5 +182,52 @@ public class App {
             System.out.println("Нету покупателей или обуви");
         }
         return history;
+    }
+    private AntiHistory addAntiHistory(){
+        AntiHistory antihistory = new AntiHistory();
+        System.out.println("История покупок - ");
+            for (int i = 0; i< histories.length;i++){
+                if (histories[i] != null){
+                    System.out.println((i+1) + ")" + histories[i].toString());
+                }
+            }
+            int otvet = scanner.nextInt();
+            if(histories[0] != null){
+                for (int i = 0; i< clients.length;i++){
+                    if(clients[i] != null){
+                        if(clients[i].getClientNumber() == histories[otvet-1].getClientNumber()){
+                            for (int b = 0; b< products.length;b++){
+                                if(products[b] != null && products[b].getModell() == histories[otvet-1].getProduct() && products[b].getSize() == histories[otvet-1].getSize()){
+                                    if(products[b].getMaxPiece() > products[b].getPiece()){
+                                        clients[i].setClientMoney(clients[i].getClientMoney() + products[b].getPrice());
+                                        products[b].setPiece(products[b].getPiece()+1);
+                                        easyMoney -= products[b].getPiece();
+                                        antihistory.setClientNumber(clients[i].getClientNumber());
+                                        Calendar c = new GregorianCalendar();
+                                        antihistory.setDateOfVozvrata(c.getTime());
+                                        antihistory.setProduct(products[i].getModell());
+                                        antihistory.setClient(clients[i].getClientName());
+                                        break;
+                                    }else{
+                                        System.out.println("Товар заполнен, идите лесом!");
+                                        antihistory = null;
+                                    }
+                                }
+                                else{
+                                    antihistory = null;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    else{
+                        antihistory = null;
+                    }
+                }
+            }else{
+                System.out.println("ошибка");
+                antihistory = null;
+            }
+        return antihistory;
     }
 }

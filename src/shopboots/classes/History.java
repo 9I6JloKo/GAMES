@@ -12,15 +12,29 @@ import java.util.Date;
  */
 public class History implements Serializable{
     private Date dateOfBuying;
-    private String client;
+    private int clientNumber;
     private String product;
+    private int size;
+    private String clientName;
 
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public int getSize() {
+        return size;
+    }
+    
     public Date getDateOfBuying() {
         return dateOfBuying;
     }
 
-    public String getClient() {
-        return client;
+    public int getClientNumber() {
+        return clientNumber;
     }
 
     public String getProduct() {
@@ -31,8 +45,12 @@ public class History implements Serializable{
         this.dateOfBuying = dateOfBuying;
     }
 
-    public void setClient(String client) {
-        this.client = client;
+    public void setClientNumber(int clientNumber) {
+        this.clientNumber = clientNumber;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public void setProduct(String product) {
@@ -40,7 +58,7 @@ public class History implements Serializable{
     }
     @Override
     public String toString(){
-        return "History [" + "Name= " + client + ", product= " + product + ", dateOfBuying= " + dateOfBuying + "]";
+        return "History [" + "Number= " + clientNumber + ", NAME= " + clientName + ", product= " + product + ", size= " + size + ", dateOfBuying= " + dateOfBuying + "]";
     }
     
 }
