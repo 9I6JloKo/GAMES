@@ -11,6 +11,7 @@ import shopboots.classes.History;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import interfaces.Keeping;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import tools.SaverToFile;
@@ -24,17 +25,17 @@ public class App {
     private List<Client> clients = new ArrayList<>();
     private List<History> histories = new ArrayList<>();
     private List<AntiHistory> antihistories = new ArrayList<>();
-    private Keeping keeping = new SaverToFile();
+    /*private Keeping keeping = new SaverToFile();*/
     Double easyMoney = 0.00;
     Scanner scanner = new Scanner(System.in);
 
-    public App() {
+    /*public App() {
         products = keeping.loadProducts();
         clients = keeping.loadClients();
         histories = keeping.loadHistories();
         antihistories = keeping.loadAntiHistories();
     }
-    
+    */
     
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -56,7 +57,7 @@ public class App {
             task = scanner.nextInt();
             if(task == 2){
                 products.add(addProduct());
-                keeping.saveProducts(products);
+                //keeping.saveProducts(products);
             }else if(task == 3){
                 for (int i = 0; i< products.size();i++){
                     if (products.get(i) != null){
@@ -66,7 +67,7 @@ public class App {
             }
             else if(task == 4){
                 clients.add(addClient());
-                keeping.saveClients(clients);
+                //keeping.saveClients(clients);
                 
             }else if(task == 5){
                 for (int i = 0; i< clients.size();i++){
@@ -76,7 +77,7 @@ public class App {
                 }
             }else if(task == 6){
                 histories.add(addHistory());
-                keeping.saveHistories(histories);
+                //keeping.saveHistories(histories);
             
             }else if(task == 7){
                 for (int i = 0; i< histories.size();i++){
@@ -90,7 +91,7 @@ public class App {
             }
             else if(task == 8){
                 antihistories.add(addAntiHistory());
-                keeping.saveAntiHistories(antihistories);
+                //keeping.saveAntiHistories(antihistories);
             
             }else if(task == 9){
                 for (int i = 0; i< antihistories.size();i++){
@@ -166,6 +167,9 @@ public class App {
                 clients.get(clientNumb-1).setClientMoney(clients.get(clientNumb-1).getClientMoney() - products.get(productNumb-1).getPrice());
                 easyMoney += products.get(productNumb-1).getPrice();
                 products.get(productNumb-1).setPiece(products.get(productNumb-1).getPiece() - 1);
+                LocalDate localDate = LocalDate.now();
+                localDate = localDate.plusWeeks(2);
+                history.setLocalDate(localDate);
             }
             else{
                 System.out.println("Не хватает денег или товара");

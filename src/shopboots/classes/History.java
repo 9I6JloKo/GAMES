@@ -6,6 +6,7 @@
 package shopboots.classes;
 import java.io.Serializable;
 import java.util.Date;
+import java.time.LocalDate;
 /**
  *
  * @author anana
@@ -16,6 +17,7 @@ public class History implements Serializable{
     private String product;
     private int size;
     private String clientName;
+    private LocalDate localDate;
 
     public String getClientName() {
         return clientName;
@@ -56,9 +58,18 @@ public class History implements Serializable{
     public void setProduct(String product) {
         this.product = product;
     }
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+    
     @Override
     public String toString(){
-        return "History [" + "Number= " + clientNumber + ", NAME= " + clientName + ", product= " + product + ", size= " + size + ", dateOfBuying= " + dateOfBuying + "]";
+        return "History [" + "Number= " + clientNumber + ", NAME= " + clientName + ", product= " + product + ", size= " + size + ", dateOfBuying= " + dateOfBuying + ", Backing= " + localDate.getDayOfMonth() + "." + localDate.getMonthValue() + "." + localDate.getYear() + "]";
     }
     
 }
