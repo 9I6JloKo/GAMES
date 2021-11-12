@@ -4,22 +4,32 @@
  * and open the template in the editor.
  */
 package shopboots.classes;
-
+import java.io.Serializable;
 /**
  *
  * @author anana
  */
-public class Product {
+public class Product implements Serializable{
     private String modell;
-    private String size;
+    private int size;
     private String bywho;
     private Double price;
+    private int piece;
+    private int maxPiece;
 
+    public int getMaxPiece() {
+        return maxPiece;
+    }
+    
+    public int getPiece() {
+        return piece;
+    }
+    
     public String getModell() {
         return modell;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
@@ -35,7 +45,7 @@ public class Product {
         this.modell = modell;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
@@ -47,8 +57,16 @@ public class Product {
         this.price = price;
     }
 
+    public void setMaxPiece(int maxPiece) {
+        this.maxPiece = maxPiece;
+    }
+
+    public void setPiece(int piece) {
+        this.piece = piece;
+    }
+    
     @Override
     public String toString() {
-        return "Product [bywho=" + bywho + ", modell=" + modell + ", price=" + price + ", size=" + size + "]";
+        return "Product [Seller= " + bywho + ", modell= " + modell + ", price= " + price + ", size= " + size + ", piece= " + piece + "]";
     }
 }

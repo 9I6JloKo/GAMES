@@ -4,13 +4,18 @@
  * and open the template in the editor.
  */
 package shopboots;
+
 /**
  *
  * @author pupil
  */
-public class ShopBoots {
+public class Shopboots {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        App app = new App();
-        app.run();
+        // TODO code application logic here
     }
+    
 }
