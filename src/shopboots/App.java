@@ -4,44 +4,46 @@
  * and open the template in the editor.
  */
 package shopboots;
+import facade.AntiHistoryFacade;
+import facade.ClientFacade;
+import facade.HistoryFacade;
+import facade.ProductFacade;
 import java.util.Scanner;
 import shopboots.classes.Product;
 import shopboots.classes.Client;
 import shopboots.classes.History;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import interfaces.Keeping;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 //import tools.SaverToFile;
 import shopboots.classes.AntiHistory;
 /*import shopboots.classes.Wages;*/
-import tools.SaverToBase;
-import java.lang.String;
 /**
  *
  * @author anana
  */
 public class App {
-    private List<Product> products = new ArrayList<>();
-    private List<Client> clients = new ArrayList<>();
-    private List<History> histories = new ArrayList<>();
-    private List<AntiHistory> antihistories = new ArrayList<>();
-    /*private Keeping keeping = new SaverToFile();*/
-    private Keeping keeping = new SaverToBase();
-   /* private Wages wages = new Wages();*/
+    
+    private Scanner scanner = new Scanner(System.in);
+    private ProductFacade productFacade;
+    private AntiHistoryFacade antiHistoryFacade;
+    private ClientFacade clientFacade;
+    private HistoryFacade historyFacade;
     double easyMoney = 0;
-    Scanner scanner = new Scanner(System.in);
     
     public App() {
-        products = keeping.loadProducts();
-        clients = keeping.loadClients();
-        histories = keeping.loadHistories();
-        antihistories = keeping.loadAntiHistories();
-       /* wages = keeping.loadWages();*/
+        init();
     }
     
+    private void init(){
+        productFacade = new ProductFacade(Product.class);
+        antiHistoryFacade = new AntiHistoryFacade(AntiHistory.class);
+        clientFacade = new ClientFacade(Client.class);
+        historyFacade = new HistoryFacade(History.class);
+    }
     
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -66,46 +68,37 @@ public class App {
             task = scanner.nextInt();
             switch (task) {
                 case 2:
-                    products.add(addProduct());
-                    keeping.saveProducts(products);
+                    productFacade.create(addProduct()); 
                     break;
                 case 3:
-                    for (int i = 0; i< products.size();i++){
-                        if (products.get(i) != null){
-                            System.out.println(products.get(i).toString());
-                        }
-                    }   break;
+                    printListBoots();
+                    break;
                 case 4:
-                    clients.add(addClient());
-                    keeping.saveClients(clients);
+                    clientFacade.create(addClient());
                     break;
                 case 5:
-                    for (int i = 0; i< clients.size();i++){
-                        if (clients.get(i) != null){
-                            System.out.println(clients.get(i).toString());
-                        }
-                    }   break;
+                    printListClients();
+                    break;
                 case 6:
-                    histories.add(addHistory());
-                    keeping.saveHistories(histories);
+                    historyFacade.create(addHistory());
                     break;
                 case 7:
-                    for (int i = 0; i< histories.size();i++){
-                        if (histories.get(i) != null){
-                            System.out.println(histories.get(i).toString());
-                        }
-                    }   break;
+                    printListHistories();
+                    break;
                 case 8:
-                    antihistories.add(addAntiHistory());
-                    keeping.saveAntiHistories(antihistories);
+                    antiHistoryFacade.create(addAntiHistory());
                     break;
                 case 9:
+                    List<AntiHistory> antihistories = antiHistoryFacade.findAll();
                     for (int i = 0; i< antihistories.size();i++){
                         if (antihistories.get(i) != null){
                             System.out.println(antihistories.get(i).toString());
                         }
                     }   break;
                 case 10:
+                    List<History> histories = historyFacade.findAll();
+                    antihistories = antiHistoryFacade.findAll();
+                    List<Product> products = productFacade.findAll();
                     for(int i = 0; i < (histories.size()); i++){
                         for (int j = 0; j < products.size(); j++) {
                             if(histories.get(i).getProduct() == products.get(j).getModell()){
@@ -114,42 +107,62 @@ public class App {
                             }
                         }
                     }
-                        for (int i = 0; i < antihistories.size(); i++){
-                            for (int j = 0; j < products.size(); j++){
-                                if(antihistories.get(i).getProduct() == products.get(j).getModell()){
-                                    easyMoney -= products.get(j).getPrice();
-                                    break;
-                                }
-                            }   
-                        }
+                    for (int i = 0; i < antihistories.size(); i++){
+                        for (int j = 0; j < products.size(); j++){
+                            if(antihistories.get(i).getProduct() == products.get(j).getModell()){
+                                easyMoney -= products.get(j).getPrice();
+                                break;
+                            }
+                        }   
+                    }
                     monthWages();
-                    /*     if(wages.getWages() != 0){
-                    System.out.println("Доход - " + wages.getWages());
-                    }*/ break;
+                    break;
 
                 case 11:
                     System.out.println("Нажмите 1 для продолжения, 2 для отмены");
                     byte otvet = scanner.nextByte();
                     if(otvet == 1){
-                        productUpdate();
-                        keeping.saveProducts(products);
+                        productFacade.edit(productUpdate());
                     }
                     break;
                 case 12:
                     System.out.println("Нажмите 1 для продолжения, 2 для отмены");
                     byte otvet1 = scanner.nextByte();
                     if(otvet1 == 1){
-                        clientUpdate();
-                        keeping.saveClients(clients);
+                        clientFacade.edit(clientUpdate());
+                        
                     }
                     break;
                 default:
+                    System.out.println("Пока! =)");
                     repeat = false;
                     break;
             }
         }
     }
+    private void printListHistories(){
+        List<History> histories = historyFacade.findAll();
+        for(History history : histories){
+            System.out.println(history.toString());
+        }
+    }
+    private void printListClients() {
+        System.out.println("Список покупателей: ");
+        List<Client> clients = clientFacade.findAll();
+        for (Client client : clients) {
+            System.out.println(client.toString());
+        }
+    }
+    private void printListBoots() {
+        System.out.println("Список обуви: ");
+        List<Product> boots = productFacade.findAll();
+        for (Product boot : boots) {
+            System.out.println(boot);
+        }
+    }
     private void monthWages(){
+        List<History> histories = historyFacade.findAll();
+        List<AntiHistory> antihistories = antiHistoryFacade.findAll();
         System.out.println("За какой месяц хотите счет?\n1) Январь\n2) Февраль\n3) Март\n4) Апрель\n5) Май\n6) Июнь\n7) Июль\n8) Август\n9) Сентябрь\n10) Октябрь\n11) Ноябрь\n12) Декабрь\n-->");    
         byte month = scanner.nextByte();
         for (int i = 0; i< histories.size();i++){
@@ -161,14 +174,15 @@ public class App {
                     }
                 }
             } else {
-                System.out.println("Error");
+                System.out.println("Товар устарел");
             }
         }
         if(easyMoney >= 0){
             System.out.println("Общий доход по всем месяцам - " + easyMoney);
         }
     }
-    private void productUpdate(){
+    private Product productUpdate(){
+        List<Product> products = productFacade.findAll();
         if (products.get(0) != null){
             for(int i = 0; i < products.size(); i++){
                 if(products.get(0) != null){
@@ -206,12 +220,16 @@ public class App {
                 default:
                     System.out.println("Error");
             }
+            return products.get(otvetproduct-1);
         }
         else{
             System.out.println("Массив продуктов пуст");
+            return null;
         }
     }
-    private void clientUpdate(){
+    private Client clientUpdate(){
+        List<Client> clients = clientFacade.findAll();
+        byte otvetclient11 = 0;
         if (clients.get(0) != null){
             for(int i = 0; i < clients.size(); i++){
                 if(clients.get(0) != null){
@@ -220,6 +238,7 @@ public class App {
             }   
             System.out.println("Какого клиента хотите изменить?");
             byte otvetclient = scanner.nextByte();
+            otvetclient11 = otvetclient;
             scanner.nextLine();
             System.out.println("Какую часть хотите изменить?\nИмя - \"1\", \nФамилия - \"2\", \nНомер телефона - \"3\", \nДеньги клиента - \"4\"");
             byte otvetclient1 = scanner.nextByte();
@@ -244,9 +263,11 @@ public class App {
                 default:
                     System.out.println("Error");
             }
+            return clients.get(otvetclient11-1);
         }
         else{
             System.out.println("Массив клиентов пуст");
+            return null;
         }
     }
     private Client addClient(){
@@ -261,7 +282,6 @@ public class App {
         client.setClientMoney(scanner.nextDouble());
         return client;
     }
-
     private Product addProduct() {
         Product product = new Product();
         System.out.print("Модель - ");
@@ -283,7 +303,9 @@ public class App {
     }
     private History addHistory(){
         History history = null;
-        if(clients.get(0) != null){
+        List<Client> clients = clientFacade.findAll();
+        List<Product> products = productFacade.findAll();
+        if(clients != null){
             history = new History();
             System.out.println("Список покупателей - ");
             for(int i = 0; i < clients.size(); i++){
@@ -327,6 +349,9 @@ public class App {
         return history;
     }
     private AntiHistory addAntiHistory(){
+        List<History> histories = historyFacade.findAll();
+        List<Client> clients = clientFacade.findAll();
+        List<Product> products = productFacade.findAll();
         AntiHistory antihistory = new AntiHistory();
         System.out.println("История покупок - ");
             for (int i = 0; i< histories.size();i++){
