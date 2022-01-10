@@ -5,17 +5,37 @@
  */
 package shopboots.classes;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author anana
  */
-public class AntiHistory {
+@Entity
+public class AntiHistory implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfVozvrata;
     private String client;
     private String product;
     private int clientNumber;
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    
     public Date getDateOfVozvrata() {
         return dateOfVozvrata;
     }
@@ -49,6 +69,6 @@ public class AntiHistory {
     }
     @Override
     public String toString(){
-        return "AntiHistory [" + "Name= " + client + ", clientNumber= " + clientNumber + ", product= " + product + ", dateOfVOZVRATA= " + dateOfVozvrata + "]";
+        return "О возврате: [" + "Номер покупателя: " + clientNumber + "; \tЕго имя: " + client + "; \tМодель(подробная): " + product + "; \tДата возврата: " + dateOfVozvrata + "]";
     }
 }

@@ -5,18 +5,34 @@
  */
 package shopboots.classes;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 /**
  *
  * @author anana
  */
+@Entity
 public class Product implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String modell;
-    private int size;
+    private Double size;
     private String bywho;
     private Double price;
     private int piece;
     private int maxPiece;
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Long getId() {
+        return id;
+    }
+    
     public int getMaxPiece() {
         return maxPiece;
     }
@@ -29,7 +45,7 @@ public class Product implements Serializable{
         return modell;
     }
 
-    public int getSize() {
+    public Double getSize() {
         return size;
     }
 
@@ -45,7 +61,7 @@ public class Product implements Serializable{
         this.modell = modell;
     }
 
-    public void setSize(int size) {
+    public void setSize(Double size) {
         this.size = size;
     }
 
@@ -67,6 +83,6 @@ public class Product implements Serializable{
     
     @Override
     public String toString() {
-        return "Product [Seller= " + bywho + ", modell= " + modell + ", price= " + price + ", size= " + size + ", piece= " + piece + "]";
+        return "О продукте: [Продавец: " + bywho + "; \tМодель(подробная): " + modell + "; \tЦена: " + price + "; \tРазмер: " + size + "; \tКол-во: " + piece + "]";
     }
 }

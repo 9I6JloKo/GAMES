@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package interfaces;
+import java.util.List;
+import shopboots.classes.AntiHistory;
 import shopboots.classes.Client;
 import shopboots.classes.History;
 import shopboots.classes.Product;
@@ -12,10 +14,14 @@ import shopboots.classes.Product;
  * @author anana
  */
 public interface Keeping {
-    public void saveClients(Client[] clients);
-    public Client[] loadClients();
-    public void saveProducts(Product[] products);
-    public Product[] loadProducts();
-    public void saveHistories(History[] histories);
-    public History[] loadHistories();
+    public void saveClients(List<Client> clients);
+    public List<Client> loadClients();
+    public void saveProducts(List<Product> products);
+    public List<Product> loadProducts();
+    public void saveHistories(List<History> histories);
+    public List<History> loadHistories();
+    public void saveAntiHistories(List<AntiHistory> antihistories);
+    public List<AntiHistory> loadAntiHistories();/*
+    public void saveWages(double wages);
+    public double loadWages();*/
 }

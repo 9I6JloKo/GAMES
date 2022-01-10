@@ -5,16 +5,32 @@
  */
 package shopboots.classes;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 /**
  *
  * @author anana
  */
+@Entity
 public class Client implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String clientName;
     private String clientSurname;
     private int clientNumber;
     private double clientMoney;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    
     public String getClientName() {
         return clientName;
     }
@@ -48,7 +64,7 @@ public class Client implements Serializable{
     }
     @Override
     public String toString(){
-        return "Client [Name= " + clientName + ", Surname= " + clientSurname + ", PhoneNumber= " + clientNumber + ", Money= " + clientMoney + "]";
+        return "Client: [ Имя: " + clientName + "; \tФамилия: " + clientSurname + "; \tТелефон: " + clientNumber + "; \tДеньги: " + clientMoney + "]";
     }
     
 }

@@ -9,12 +9,15 @@ import interfaces.Keeping;
 import shopboots.classes.Client;
 import shopboots.classes.History;
 import shopboots.classes.Product;
+import shopboots.classes.AntiHistory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -24,7 +27,7 @@ import java.util.logging.Logger;
 public class SaverToFile implements Keeping {
 
     @Override
-    public void saveClients(Client[] clients) {
+    public void saveClients(List<Client> clients) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
@@ -40,17 +43,17 @@ public class SaverToFile implements Keeping {
         }
     }
     @Override
-    public Client[] loadClients() {
-        Client[] clients = new Client[20];
+    public List<Client> loadClients() {
+        List<Client> clients = new ArrayList<>();
         
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream("clients");
             ois = new ObjectInputStream(fis);
-            clients = (Client[]) ois.readObject();
+            clients = (List<Client>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл clients еще на создан", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл clients еще не создан", ex);
         } catch (IOException ex) {
             Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "Oшибка считывания файла clients", ex);
         } catch (ClassNotFoundException ex) {
@@ -61,7 +64,7 @@ public class SaverToFile implements Keeping {
     }
     
     @Override
-    public void saveProducts(Product[] products) {
+    public void saveProducts(List<Product> products) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
@@ -78,17 +81,17 @@ public class SaverToFile implements Keeping {
     }
 
     @Override
-    public Product[] loadProducts() {
-        Product[] products = new Product[200];
+    public List<Product> loadProducts() {
+        List<Product> products = new ArrayList<>();
         
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream("clients");
             ois = new ObjectInputStream(fis);
-            products = (Product[]) ois.readObject();
+            products = (List<Product>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл products еще на создан", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл products еще не создан", ex);
         } catch (IOException ex) {
             Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "Oшибка считывания файла products", ex);
         } catch (ClassNotFoundException ex) {
@@ -99,7 +102,7 @@ public class SaverToFile implements Keeping {
     }
 
     @Override
-    public void saveHistories(History[] histories) {
+    public void saveHistories(List<History> histories) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
@@ -116,17 +119,17 @@ public class SaverToFile implements Keeping {
     }
 
     @Override
-    public History[] loadHistories() {
-        History[] histories = new History[100];
+    public List<History> loadHistories() {
+        List<History> histories = new ArrayList<>();
         
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream("clients");
             ois = new ObjectInputStream(fis);
-            histories = (History[]) ois.readObject();
+            histories = (List<History>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл products еще на создан", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл products еще не создан", ex);
         } catch (IOException ex) {
             Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "Oшибка считывания файла products", ex);
         } catch (ClassNotFoundException ex) {
@@ -134,5 +137,41 @@ public class SaverToFile implements Keeping {
         }
         
         return histories;
+    }
+    @Override
+    public void saveAntiHistories(List<AntiHistory> antihistories) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        
+        try {
+            fos = new FileOutputStream("AntiHistories");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(antihistories);
+            oos.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Нет файла histories", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "Ошибка ввода", ex);
+        }
+    }
+    @Override
+    public List<AntiHistory> loadAntiHistories() {
+        List<AntiHistory> antihistories = new ArrayList<>();
+        
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = new FileInputStream("clients");
+            ois = new ObjectInputStream(fis);
+            antihistories = (List<AntiHistory>) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Файл antihistories еще не создан", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "Oшибка считывания файла antihistories", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "Класса antihistory не существует", ex);
+        }
+        
+        return antihistories;
     }
 }
