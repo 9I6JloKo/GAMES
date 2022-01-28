@@ -124,7 +124,7 @@ public class guiApp extends javax.swing.JFrame {
                                     }
                                     else{
                                         infoFirst.getInfo().setForeground(Color.red);
-                                        infoFirst.getInfo().setText("Ошибка ввода данных. Обратитесь к админу(проверьте лог и пароль)");
+                                        infoFirst.getInfo().setText("Нет таких пользователей");
                                     }    
                                 }
                             }
