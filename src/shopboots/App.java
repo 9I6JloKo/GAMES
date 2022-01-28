@@ -252,7 +252,7 @@ public class App {
                     break;
                 case 3:
                     System.out.println("Номер телефона - ");
-                    clients.get(otvetclient-1).setClientNumber(scanner.nextInt());scanner.nextLine();
+                    clients.get(otvetclient-1).setClientNumber(scanner.nextLine());scanner.nextLine();
                     break;
                 case 4:
                     System.out.println("Деньги клиента - ");
@@ -275,7 +275,7 @@ public class App {
         System.out.print("Фамилия - ");
         client.setClientSurname(scanner.next());
         System.out.print("Номер телефона - ");
-        client.setClientNumber(scanner.nextInt());
+        client.setClientNumber(scanner.nextLine());
         System.out.print("Деньги - ");
         client.setClientMoney(scanner.nextDouble());
         return client;

@@ -81,6 +81,17 @@ public class guiApp extends javax.swing.JFrame {
         ButtonComponent enter = new ButtonComponent("Войти", 80, 175, 250);
         enteringPanel.add(enter);
         List<Client> clients = clientFacade.findAll();
+        if(clients.isEmpty()){
+            Client client1 = new Client();
+            client1.setClientName("Maksim");
+            client1.setClientSurname("Grishin");
+            client1.setClientNumber("53883833");
+            client1.setClientMoney(5000);
+            client1.setLogin("maksim");
+            client1.setPassword("12345");
+            client1.setLevel("admin");
+            clientFacade.create(client1);   
+        }
         enter.getButton().addActionListener((ActionEvent evt) -> {
             try{
                 if( !loginfirst.getEditor().getText().isEmpty() &&
@@ -90,10 +101,10 @@ public class guiApp extends javax.swing.JFrame {
                             if(!clients.isEmpty()){
                                 for(Client client : clients){
                                     if(client.getLogin().equals(loginfirst.getEditor().getText()) &&
-                                            client.getPassword().equals(passwordfirst.getEditor().getText()) &&
-                                            client.getLevel().equals("client")){
+                                        client.getPassword().equals(passwordfirst.getEditor().getText()) &&
+                                        client.getLevel().equals("client")){
                                         managerTabbed.removeTabAt(0);
-                                        managerTabbed.removeTabAt(0);
+                                        managerTabbed.removeTabAt(0); /*клиент не реализован правильно. Сделать панели*/
                                         managerTabbed.removeTabAt(1);
                                         this.remove(managerTabbedmain);
                                         this.add(managerTabbed);
@@ -104,7 +115,7 @@ public class guiApp extends javax.swing.JFrame {
                                     else if(client.getLogin().equals(loginfirst.getEditor().getText()) &&
                                             client.getPassword().equals(passwordfirst.getEditor().getText()) &&
                                             client.getLevel().equals("manager")){
-                                        managerTabbed.removeTabAt(2);
+                                        managerTabbed.removeTabAt(2); /*менеджер не реализован правильно. Сделать панели*/
                                         this.remove(managerTabbedmain);
                                         this.add(managerTabbed);
                                         this.revalidate();
@@ -114,7 +125,6 @@ public class guiApp extends javax.swing.JFrame {
                                     else{
                                         infoFirst.getInfo().setForeground(Color.red);
                                         infoFirst.getInfo().setText("Ошибка ввода данных. Обратитесь к админу(проверьте лог и пароль)");
-                                        break;
                                     }    
                                 }
                             }
